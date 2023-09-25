@@ -38,9 +38,10 @@
                 <span class="navbar-text">
                         Xin chào, {{ user.username }}!
                     </span>
-                <a class="btn btn-danger ml-2" href="{% url 'User:logout' %}">Đăng xuất</a>
+                <a class="btn btn-danger ml-2" href="{% url 'User:logout' %}">Logout</a>
             {% else %}
-                <a class="btn btn-primary" href="{% url 'User:login' %}">Đăng nhập</a>
+                <a class="btn btn-primary" href="{% url 'User:login' %}">Login</a>
+                <a class="btn btn-primary" href="{% url 'User:register' %}">Register</a>
             {% endif %}
         </div>
     </div>

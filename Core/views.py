@@ -58,7 +58,7 @@ class Speaking_practice(View):
             content = form.save(commit=False)
             content.user = author
             content.save()
-            form.save()
+            # form.save()
             temp = Speaking.objects.filter(id=request.POST['problem'])[0]
             temp.count += 1
             temp.save()
@@ -85,7 +85,7 @@ class Writing_practice(View):
             content = form.save(commit=False)
             content.user = author
             content.save()
-            form.save()
+            # form.save()
             temp = Writing.objects.filter(id=request.POST['problem'])[0]
             temp.count += 1
             temp.save()
@@ -110,6 +110,27 @@ def speaking_detail(request, speaking_id):
             return redirect('Core:speaking')
     speakings = Speaking.objects.filter(type=speaking_id,user=request.user.id)
     return render(request, 'Core/speaking.html', context={'speakings': speakings})
+def speaking_practice_detail(request, speaking_id):
+    # Ở đây, bạn có thể sử dụng giá trị speaking_id để thực hiện xử lý tương ứng
+    if request.method == 'POST':
+        # Xử lý yêu cầu DELETE ở đây (ví dụ: xóa một đối tượng Speaking)
+        if request.POST.get('_method')=="DELETE":
+            speaking = get_object_or_404(PracticeS, id=speaking_id)
+            speaking.delete()
+            return redirect('Core:speaking_practice_all')
+    speakings = PracticeS.objects.filter(type=speaking_id,user=request.user.id)
+    return render(request, 'Core/speaking_practice_all.html', context={'speakings': speakings})
+
+def writing_practice_detail(request, speaking_id):
+    # Ở đây, bạn có thể sử dụng giá trị speaking_id để thực hiện xử lý tương ứng
+    if request.method == 'POST':
+        # Xử lý yêu cầu DELETE ở đây (ví dụ: xóa một đối tượng Speaking)
+        if request.POST.get('_method')=="DELETE":
+            writing = get_object_or_404(PracticeW, id=speaking_id)
+            writing.delete()
+            return redirect('Core:writing_practice_all')
+    writings = PracticeW.objects.filter(type=speaking_id,user=request.user.id)
+    return render(request, 'Core/writing_practice_all.html', context={'writings': writings})
 class Writing_p(View):
     def get(self, request):
         # Your view logic for the HTTP GET method goes here

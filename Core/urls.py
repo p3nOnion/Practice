@@ -22,12 +22,15 @@ urlpatterns = [
     path('speaking/', Speaking_p.as_view(), name='speaking'),
     path('speaking/<int:speaking_id>/', speaking_detail, name='speaking_detail'),
     path('speaking/<int:speaking_id>/delete/', speaking_detail, name='speaking_delete'),
+    path('speaking/practice/<int:speaking_id>/delete/', speaking_practice_detail, name='speaking_practice_delete'),
     path('speaking/practice/', Speaking_practice.as_view(), name='speaking_practice'),
-path('speaking/practice/all/', Speaking_practice_all.as_view(), name='speaking_practice_all'),
+    path('speaking/practice/all/', Speaking_practice_all.as_view(), name='speaking_practice_all'),
 
     path('writing/', Writing_p.as_view(), name='writing'),
     path('writing/<int:writing_id>/', writing_detail, name='writing_detail'),
     path('writing/<int:writing_id>/delete/', writing_detail, name='writing_detail'),
     path('writing/practice/', Writing_practice.as_view(), name='writing_practice'),
+    path('writing/practice/<int:speaking_id>/delete/', writing_practice_detail, name='writing_practice_delete'),
+
     path('writing/practice/all/', Writing_practice_all.as_view(), name='writing_practice_all'),
 ]
