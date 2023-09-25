@@ -26,15 +26,21 @@
                         <input type="text" name="problem" hidden value="{{ speaking.id }}">
                         <div class="mb-3">
                             <label for="problem" class="form-label">Problem:</label>
-                            <textarea id="problem"  class="form-control" rows="4" required
+                            <textarea id="problem" class="form-control" rows="4" required
                                       readonly>{{ speaking.problem }}</textarea>
                         </div>
-
                         <div class="mb-3">
-                            <label for="solution" class="form-label">Solution:</label>
-                            <textarea id="solution" class="form-control" rows="4" required
-                                      readonly>{{ speaking.solution }}</textarea>
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input toggleButton">Toggle Solution
+                            </label>
+                            <div class="solutionDiv d-none">
+                                <label for="solution" class="form-label">Solution:</label>
+                                <textarea class="form-control solution" rows="4" required
+                                          readonly>{{ speaking.solution }}</textarea>
+                            </div>
                         </div>
+
+
                         <div class="mb-3">
                             <label for="solution" class="form-label">Answer:</label>
                             <textarea id="solution" name="solution" class="form-control" rows="4" required></textarea>

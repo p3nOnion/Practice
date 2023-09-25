@@ -52,11 +52,11 @@
 <!-- Content -->
 <div class="container mt-4">
     <!-- Add your content here -->
-{% if user.is_authenticated %}
-    {% block body %}
+    {% if user.is_authenticated %}
+        {% block body %}
 
-    {% endblock %}
-{% endif %}
+        {% endblock %}
+    {% endif %}
 </div>
 
 <!-- Footer -->
@@ -65,11 +65,29 @@
 </footer>
 
 <!-- Link to Bootstrap JS and jQuery (required for Bootstrap features) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+JmJs/rfdfs3SO+k4dzW5/Cz5I5HZl/R5Bt5/oi4me6m5f5g"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-xrR3fFSSz5JyJ3wnfFq5F8W5d3k4zr5E5xKZl3D9Jglz5lzz5F5C5E5E5E5E5E5E5E5"
-        crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Xử lý sự kiện khi thay đổi trạng thái của ô kiểm "Toggle Solution"
+        $('.toggleButton').change(function () {
+            // Sử dụng $(this) để tham chiếu đến ô kiểm được chọn
+            var isChecked = $(this).prop('checked');
+
+            // Sử dụng .closest() để tìm solutionDiv và .find() để tìm textarea bên trong
+            var solutionDiv = $(this).closest('.mb-3').find('.solutionDiv');
+            var textarea = solutionDiv.find('.solution');
+
+            // Ẩn/hiện solutionDiv và textarea dựa trên trạng thái của ô kiểm
+            if (isChecked) {
+                solutionDiv.removeClass('d-none'); // Xóa lớp "d-none" để hiển thị
+                textarea.removeClass('d-none'); // Xóa lớp "d-none" để hiển thị
+            } else {
+                solutionDiv.addClass('d-none'); // Thêm lớp "d-none" để ẩn
+                textarea.addClass('d-none'); // Thêm lớp "d-none" để ẩn
+            }
+        });
+    });
+</script>
 </body>
 </html>
