@@ -1,0 +1,47 @@
+{% extends "Core/base.html" %}
+{% block title %}
+    Speaking
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-3"> <!-- Tỷ lệ 30% -->
+            <div style="background-color: lightgray;">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="{% url "Core:speaking" %}practice">Practice</a></li>
+                    <li class="list-group-item"><a href="{% url "Core:speaking" %}1">Part 1</a></li>
+                    <li class="list-group-item"><a href="{% url "Core:speaking" %}2">Part 2</a></li>
+                    <li class="list-group-item"><a href="{% url "Core:speaking" %}3">Part 3</a></li>
+                    <li class="list-group-item"><a href="{% url "Core:speaking" %}4">Part 4</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9"> <!-- Tỷ lệ 70% -->
+            <!-- Nội dung của div bên phải -->
+            <h2>Speaking Practice</h2>
+            <ul class="list-group">
+                {% for speaking in speakings %}
+                    <form id="contentForm" method="post" action="" class="container mt-4">
+                        {% csrf_token %}
+                        <input type="text" name="problem" hidden value="{{ speaking.id }}">
+                        <div class="mb-3">
+                            <label for="problem" class="form-label">Problem:</label>
+                            <textarea id="problem"  class="form-control" rows="4" required
+                                      readonly>{{ speaking.problem }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="solution" class="form-label">Solution:</label>
+                            <textarea id="solution" class="form-control" rows="4" required
+                                      readonly>{{ speaking.solution }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="solution" class="form-label">Answer:</label>
+                            <textarea id="solution" name="solution" class="form-control" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

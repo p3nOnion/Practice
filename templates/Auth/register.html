@@ -1,0 +1,110 @@
+{% extends "Auth/base.html" %}
+{% block title %}
+    Register
+{% endblock %}
+
+{% block body %}
+    <body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Register Account
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="{% url 'User:register' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {% if form.username.errors %}
+                                    <ul class="text-danger no-bullet-list">
+                                        <li>{{ form.username.errors.0 }}</li>
+                                    </ul>
+                                {% endif %}
+                                <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="{{ form.username.id_for_label }}"
+                                       name="{{ form.username.name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="{{ form.password1.id_for_label }}"
+                                       name="{{ form.password1.name }}" required>
+                                <ul>
+                                    <li>Your password can’t be too similar to your other personal information.</li>
+                                    <li>Your password must contain at least 8 characters.</li>
+                                    <li>Your password can’t be a commonly used password.</li>
+                                    <li>Your password can’t be entirely numeric.</li>
+                                </ul>
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm
+                                    Password</label>
+                                <input type="password" class="form-control" id="{{ form.password2.id_for_label }}"
+                                       name="{{ form.password2.name }}" required>
+                            </div>
+                            <span id="password_match" class="text-danger"></span>
+                            <button type="submit" class="btn btn-primary" id="register_button" disabled>Register
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+        const password = document.getElementById("{{ form.password1.id_for_label }}");
+        const confirm_password = document.getElementById("{{ form.password2.id_for_label }}");
+        const password_match = document.getElementById('password_match');
+        const register_button = document.getElementById('register_button');
+
+        function checkPassword1() {
+            const password1Value = password.value;
+
+            // Kiểm tra password1 có ít nhất 8 ký tự
+            const isPassword1Valid = password1Value.length >= 8;
+
+            // Kiểm tra password1 không giống với thông tin cá nhân
+            const username = "username"; // Thay bằng thông tin cá nhân khác nếu cần
+            const isPassword1NotSimilar = !password1Value.includes(username);
+
+            // Danh sách các mật khẩu phổ biến
+            const commonPasswords = ["password", "123456", "qwerty"];
+            // Kiểm tra password1 không là mật khẩu phổ biến
+            const isPassword1NotCommon = !commonPasswords.includes(password1Value.toLowerCase());
+
+            // Kiểm tra password1 không hoàn toàn là số
+            const isPassword1NotNumeric = !/^\d+$/.test(password1Value);
+
+            if (isPassword1Valid && isPassword1NotSimilar && isPassword1NotCommon && isPassword1NotNumeric) {
+                password_match.textContent = 'Password meets all requirements!';
+                password_match.classList.remove('text-danger');
+                password_match.classList.add('text-success');
+                register_button.disabled = false;
+            } else {
+                password_match.textContent = 'Password does not meet all requirements';
+                password_match.classList.remove('text-success');
+                password_match.classList.add('text-danger');
+                register_button.disabled = true;
+            }
+        }
+
+        password.addEventListener('input', checkPassword1);
+        confirm_password.addEventListener('input', function () {
+            if (confirm_password.value === password.value) {
+                password_match.textContent = 'Passwords match!';
+                password_match.classList.remove('text-danger');
+                password_match.classList.add('text-success');
+                register_button.disabled = false;
+            } else {
+                password_match.textContent = 'Passwords do not match';
+                password_match.classList.remove('text-success');
+                password_match.classList.add('text-danger');
+                register_button.disabled = true;
+            }
+        });
+
+    </script>
+{% endblock %}

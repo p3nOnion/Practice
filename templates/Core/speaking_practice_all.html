@@ -1,0 +1,81 @@
+{% extends "Core/base.html" %}
+{% block title %}
+    Speaking
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-3"> <!-- Tỷ lệ 30% -->
+            <div style="background-color: lightgray;">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="{% url "Core:speaking" %}practice">Practice</a></li>
+                    <li class="list-group-item"><a href="{% url "Core:speaking" %}1">Part 1</a></li>
+                    <li class="list-group-item"><a href="{% url "Core:speaking" %}2">Part 2</a></li>
+                    <li class="list-group-item"><a href="{% url "Core:speaking" %}3">Part 3</a></li>
+                    <li class="list-group-item"><a href="{% url "Core:speaking" %}4">Part 4</a></li>
+                    <li class="list-group-item"><a href="{% url "Core:speaking" %}practice/all">Show</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9"> <!-- Tỷ lệ 70% -->
+            <!-- Nội dung của div bên phải -->
+            <h2>Speaking List</h2>
+            <ul class="list-group">
+                {% for speaking in speakings %}
+                    <div class="row">
+                        <div class="col-1">
+                            <!-- Cột 1/10 -->
+                            <!-- Nội dung của cột 1 -->
+                            <div class="text-center">{{ forloop.counter }}</div>
+                        </div>
+                        <div class="col-10">
+                            <!-- Cột 9/10 -->
+                            <!-- Nội dung của cột 2 -->
+                            <textarea id="problem"  class="form-control bg-secondary bg-gradient text-white" rows="4" required
+                                      readonly>{{ speaking.problem }}</textarea>
+                            <div class="my-2"></div>
+                            <textarea id="problem"  class="form-control" rows="4" required
+                                      readonly>{{ speaking.solution }}</textarea>
+                            <hr class="my-4"> <!-- Thay đổi khoảng cách và đường ngang -->
+                        </div>
+                        <!-- Button trigger modal -->
+
+                        <!-- Modal -->
+
+                        <div class="col-1">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#deleteSpeakingModal{{ speaking.id }}">
+                                Delete
+                            </button>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="deleteSpeakingModal{{ speaking.id }}" tabindex="-1"
+                             aria-labelledby="deleteSpeakingModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteSpeakingModalLabel">Confirm Deletion</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete this Speaking?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                                        </button>
+                                        <form method="post" action="{% url 'Core:speaking_practice' %}{{ speaking.id }}/delete/">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

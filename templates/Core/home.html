@@ -1,0 +1,68 @@
+{% extends "Core/base.html" %}
+{% block title %}
+    Home
+{% endblock %}
+{% block body %}
+
+<form id="contentForm" method="post" action="" class="container mt-4">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="type" class="form-label">Type:</label>
+        <select id="type" name="value" class="form-select" required>
+            <option value="speaking">Speaking</option>
+            <option value="writing">Writing</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="part" class="form-label">Part:</label>
+        <select id="part" name="type" class="form-select" required>
+            <option value="1">Part 1</option>
+            <option value="1">Part 2</option>
+            <option value="1">Part 3</option>
+            <option value="1">Part 4</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="problem" class="form-label">Problem:</label>
+        <textarea id="problem" name="problem" class="form-control" rows="4" required></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="solution" class="form-label">Solution:</label>
+        <textarea id="solution" name="solution" class="form-control" rows="4" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#speakingForm").submit(function (event) {
+            event.preventDefault();  // Ngăn chặn gửi form một cách truyền thống
+
+            var type = $("#type").val();
+            var problem = $("#problem").val();
+            var solution = $("#solution").val();
+
+            $.ajax({
+                type: "POST",
+                url: "{% url 'Core:home' %}",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    type: type,
+                    problem: problem,
+                    solution: solution
+                },
+                success: function (data) {
+                    alert("Successfully created a Speaking!");
+                    // Có thể thực hiện chuyển hướng hoặc làm gì đó sau khi tạo thành công.
+                },
+                error: function (data) {
+                    alert("Failed to create a Speaking.");
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}
